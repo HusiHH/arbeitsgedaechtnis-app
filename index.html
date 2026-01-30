@@ -1,0 +1,139 @@
+# arbeitsgedaechtnis-app
+Working-Memory Training to improve cognitive and non cgnitive skills
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Arbeitsgedächtnis Training</title>
+
+<style>
+body {
+  font-family: Arial, sans-serif;
+  background: #f0f4f7;
+  text-align: center;
+  margin: 0;
+  padding: 30px;
+}
+
+h1 {
+  margin-bottom: 20px;
+}
+
+button {
+  padding: 18px 28px;
+  font-size: 18px;
+  border-radius: 12px;
+  border: none;
+  background: #4a90e2;
+  color: white;
+  margin: 10px;
+}
+
+button:active {
+  background: #357abd;
+}
+
+.hidden {
+  display: none;
+}
+
+.card {
+  background: white;
+  padding: 25px;
+  border-radius: 16px;
+  max-width: 400px;
+  margin: auto;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.big {
+  font-size: 42px;
+  margin: 20px 0;
+}
+</style>
+</head>
+
+<body>
+
+<div class="card">
+
+  <h1>Arbeitsgedächtnis</h1>
+
+  <!-- START -->
+  <div id="screen-start">
+    <p>Wähle deinen Modus:</p>
+    <button onclick="start('klasse5')">Klasse 5</button><br>
+    <button onclick="start('klasse8')">Klasse 8</button><br>
+    <button onclick="start('erwachsen')">Erwachsene</button>
+  </div>
+
+  <!-- TRAINING -->
+  <div id="screen-training" class="hidden">
+    <p id="instruction"></p>
+    <div id="stimulus" class="big"></div>
+    <button onclick="next()">Weiter</button>
+  </div>
+
+  <!-- ENDE -->
+  <div id="screen-end" class="hidden">
+    <p><strong>Training beendet ✔</strong></p>
+    <button onclick="restart()">Zurück zum Start</button>
+  </div>
+
+</div>
+
+<script>
+let mode = "";
+let step = 0;
+
+const tasks = {
+  klasse5: [
+    { text: "Merke dir die Zahl", value: "7" },
+    { text: "Merke dir die Reihenfolge", value: "Apfel – Ball – Katze" },
+    { text: "Welche Zahl war größer?", value: "3 oder 8" }
+  ],
+  klasse8: [
+    { text: "Merke dir die Zahl", value: "42" },
+    { text: "Merke dir die Buchstaben", value: "B – M – K" },
+    { text: "Was kommt rückwärts?", value: "9 – 4 – 2" }
+  ],
+  erwachsen: [
+    { text: "Merke dir die Zahl", value: "738" },
+    { text: "Merke dir Buchstaben", value: "Q – L – R" },
+    { text: "Reihenfolge merken", value: "Haus – Baum – Auto" }
+  ]
+};
+
+function start(selectedMode) {
+  mode = selectedMode;
+  step = 0;
+  document.getElementById("screen-start").classList.add("hidden");
+  document.getElementById("screen-training").classList.remove("hidden");
+  showTask();
+}
+
+function showTask() {
+  const task = tasks[mode][step];
+  document.getElementById("instruction").innerText = task.text;
+  document.getElementById("stimulus").innerText = task.value;
+}
+
+function next() {
+  step++;
+  if (step >= tasks[mode].length) {
+    document.getElementById("screen-training").classList.add("hidden");
+    document.getElementById("screen-end").classList.remove("hidden");
+  } else {
+    showTask();
+  }
+}
+
+function restart() {
+  document.getElementById("screen-end").classList.add("hidden");
+  document.getElementById("screen-start").classList.remove("hidden");
+}
+</script>
+
+</body>
+</html>
